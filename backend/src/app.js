@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "../config/auth.js";
 import userRoutes from "../routes/user.route.js";
+import auditRoutes from "../routes/audit.route.js";
 import "dotenv/config";
 
 const app = express();
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api", auditRoutes);
 
 
 

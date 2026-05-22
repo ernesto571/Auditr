@@ -64,7 +64,7 @@ async function initDB() {
       )
     `;
     console.log("✅ Better Auth verification table ready");
-
+ 
     await sql`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -77,6 +77,34 @@ async function initDB() {
       )
     `;
     console.log("✅ Users table ready");
+
+    // reports table
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS reports (
+        id SERIAL PRIMARY KEY,
+        auth_id TEXT NOT NULL REFERENCES users(auth_id) ON DELETE CASCADE,
+        domain TEXT NOT NULL,
+        url TEXT NOT NULL,
+        overall_score NUMERIC(4,1) NOT NULL,
+        verdict TEXT,
+        scores JSONB DEFAULT '{}',
+        summary TEXT NOT NULL,
+        findings JSONB DEFAULT '[]',
+        strengths TEXT[],
+        quick_wins TEXT[],
+        ui_ux_notes JSONB DEFAULT '{}',
+        conversion_notes JSONB DEFAULT '{}',
+        key_insight TEXT NOT NULL,
+        priority_order TEXT[],
+        scan_meta JSONB DEFAULT '{}',
+        screenshot_url TEXT,
+        saved BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+    console.log("✅ reports table ready");
+
 
   } catch (error) {
     console.error("❌ Error initDB:", error);

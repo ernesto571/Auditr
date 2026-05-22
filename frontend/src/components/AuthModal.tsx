@@ -2,14 +2,12 @@ import { ArrowRight, Eye, EyeOff, X } from "lucide-react";
 import { useState } from "react"
 import { useAuthStore } from "../store/AuthStore";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 interface modalProps {
     label: string
     onClose: () => void;
 }
 export default function AuthModal ( {label, onClose} : modalProps ) {
-    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const { loginWithGoogle, isGoogleLoading, isLoading, formData, setFormData, login, signup, error } = useAuthStore()
     const [ activeTab, setActiveTab ] = useState(label)
@@ -37,7 +35,7 @@ export default function AuthModal ( {label, onClose} : modalProps ) {
                 onClose()
             }
         } catch (err) {
-            console.error("Error in handleSgn", err);
+            console.error("Error in handleSignup", err);
         }
 
     };
