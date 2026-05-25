@@ -14,7 +14,7 @@ export default function Topbar ({pageTitle}: TopbarProps) {
 
 
     return (
-        <div className="sticky z-50 py-2 px-6 border-b black-bord w-full bg-cream">
+        <div className="sticky z-50 py-2 px-2 md:px-6 border-b black-bord w-full bg-cream">
             <div className="flex items-center justify-between w-full">
                 <span className="flex gap-1 font-jet text-[0.8rem] gray-1">
                     <p>auditr</p>
@@ -25,12 +25,12 @@ export default function Topbar ({pageTitle}: TopbarProps) {
                 { !user ? (
                     <span className="flex gap-2 text-[0.8rem] font-jet items-center tracking-tight">
                         <button onClick={() => setSelectedAuthLabel("sign-in")} className="px-3 py-1.5 black-bord border hover:bg-[#0a0a08] hover:text-white transition-colors ease-in-out duration-75 whitespace-nowrap">Sign in</button>
-                        <button onClick={() => setSelectedAuthLabel("sign-up")} className="flex gap-2 bg-orange items-center px-3 py-1.5 text-white transition-all ease-in-out duration-75 whitespace-nowrap" >Get started <ArrowRight className="size-3" /> </button>
+                        <button onClick={() => setSelectedAuthLabel("sign-up")} className="hidden md:flex gap-2 bg-orange items-center px-3 py-1.5 text-white transition-all ease-in-out duration-75 whitespace-nowrap" >Get started <ArrowRight className="size-3" /> </button>
                     </span>    
                 ) : (
                     <div className="flex gap-3 text-[0.8rem] font-jet items-center ">
                         <NavLink className="flex gap-2 bg-orange items-center px-3 py-1.5 text-white transition-all ease-in-out duration-75 whitespace-nowrap" to="/profile">Account</NavLink>
-                        <button onClick={logout} disabled={isLoading} title="Sign Out" className="py-1.5 px-3 black-bg white disabled:cursor-not-allowed disabled:opacity-50"><LogOut size={15} /></button>
+                        <button onClick={logout} disabled={isLoading} title="Sign Out" className="hidden md:flex py-1.5 px-3 black-bg white disabled:cursor-not-allowed disabled:opacity-50"><LogOut size={15} /></button>
                     </div>
                 ) }
                 

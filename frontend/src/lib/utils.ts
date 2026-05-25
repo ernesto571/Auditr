@@ -8,7 +8,7 @@ export const formatDate = (date: string | Date ): string => {
   // Lagos user → "Nov 14, 2025 • 10:41"
   // London user → "Nov 14, 2025 • 09:41"
 
-export const getVerdictStyle = (verdict: string ) => {
+export const getVerdictStyle = (verdict: string | undefined ) => {
     let label;
     let className;
     if ( verdict === "good" ){

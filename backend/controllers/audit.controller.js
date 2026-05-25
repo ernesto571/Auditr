@@ -56,7 +56,9 @@ export const runAudit = async (req, res) => {
     const { screenshotBase64, html } = await scanPage(url);
 
     // upload img to cloudinary
+    console.log("🌐 uplooading to cloudinary...");
     const screenshotUrl = await uploadScreenshot(screenshotBase64, url);
+    console.log("uploading done")
 
     console.log("📊 Fetching PageSpeed data...");
     const pagespeed = await getPageSpeedData(url);

@@ -61,7 +61,7 @@ export default function AuthModal ( {label, onClose} : modalProps ) {
 
     return(
         <main className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 ">
-            <div className="shadow-2xl w-[32%] mx-auto">
+            <div className="shadow-2xl w-[95%] md:w-[60%] lg:w-[32%] mx-auto">
                 {/* heading */}
                 <div className="flex items-center justify-between p-4 font-jet black-bg tracking-wide font-semibold">
                     <span className="flex gap-1 white text-[0.9rem]">
@@ -156,7 +156,7 @@ export default function AuthModal ( {label, onClose} : modalProps ) {
 
                     </section>
 
-                    <p className="py-2.5 font-semibold font-jet flex w-full justify-center border-t black-bord text-[0.7rem] gray-1 bg-off">By continuing you agree to Auditr's Terms and Privacy Policy</p>
+                    <p className="py-2.5 px-2 lg:px-0 font-semibold font-jet flex w-full justify-center border-t black-bord text-[0.7rem] gray-1 bg-off">By continuing you agree to Auditr's Terms and Privacy Policy</p>
 
                 </div>
             </div>
