@@ -5,6 +5,7 @@ import AuthListener from "./hooks/AuthListener";
 import { useAuthStore } from "./store/AuthStore";
 import type React from "react";
 import Dashboard from "./pages/Dashboard";
+import AuthCallback from "./pages/AuthCallback";
 
 interface RouteProps {
   children: React.ReactNode;
@@ -38,6 +39,7 @@ function App() {
     <>
       <AuthListener />
       <Routes>
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/" element={<Dashboard />} />
         {/* <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <><Navbar /><SignUpPage /></>} /> */}
         {/* <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <LoginPage />} /> */}

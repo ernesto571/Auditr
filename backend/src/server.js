@@ -100,7 +100,8 @@ async function initDB() {
         scan_meta JSONB DEFAULT '{}',
         screenshot_url TEXT,
         saved BOOLEAN DEFAULT false,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
     console.log("✅ reports table ready");

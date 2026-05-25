@@ -30,7 +30,7 @@ export default function Topbar ({pageTitle}: TopbarProps) {
                 ) : (
                     <div className="flex gap-3 text-[0.8rem] font-jet items-center ">
                         <NavLink className="flex gap-2 bg-orange items-center px-3 py-1.5 text-white transition-all ease-in-out duration-75 whitespace-nowrap" to="/profile">Account</NavLink>
-                        <button onClick={logout} disabled={isLoading} title="Sign Out" className="hidden md:flex py-1.5 px-3 black-bg white disabled:cursor-not-allowed disabled:opacity-50"><LogOut size={15} /></button>
+                        <button onClick={logout} disabled={isLoading} title="Sign Out" className="flex py-1.5 px-3 black-bg white disabled:cursor-not-allowed disabled:opacity-50"><LogOut size={15} /></button>
                     </div>
                 ) }
                 

@@ -33,7 +33,7 @@ export const auth = betterAuth({
       secure: isProd,
     },
   },
-  emailAndPassword: { enabled: true },
+  emailAndPassword: { enabled: true, minPasswordLength: 8, },
   socialProviders: {
     google: {
       prompt: "select_account",
