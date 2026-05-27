@@ -28,11 +28,11 @@ export default function Dashboard (){
     const { formData, setFormData, runAudit, error, auditRunning, auditReport } = useAuditStore()
     const [ label, className ] = getVerdictStyle(auditReport?.verdict);
 
-    const [uiStyle, uiVerdict, uiVerdictStyle]       = getScoreVerdict(auditReport!.scores.ui_ux);
-    const [perfStyle, perfVerdict, perfVerdictStyle]  = getScoreVerdict(auditReport!.scores.performance);
-    const [seoStyle, seoVerdict, seoVerdictStyle]     = getScoreVerdict(auditReport!.scores.seo);
-    const [a11yStyle, a11yVerdict, a11yVerdictStyle]  = getScoreVerdict(auditReport!.scores.accessibility);
-    const [convStyle, convVerdict, convVerdictStyle]  = getScoreVerdict(auditReport!.scores.conversion);
+    const [uiStyle, uiVerdict, uiVerdictStyle]      = getScoreVerdict(auditReport?.scores.ui_ux ?? 0);
+    const [perfStyle, perfVerdict, perfVerdictStyle] = getScoreVerdict(auditReport?.scores.performance ?? 0);
+    const [seoStyle, seoVerdict, seoVerdictStyle]    = getScoreVerdict(auditReport?.scores.seo ?? 0);
+    const [a11yStyle, a11yVerdict, a11yVerdictStyle] = getScoreVerdict(auditReport?.scores.accessibility ?? 0);
+    const [convStyle, convVerdict, convVerdictStyle] = getScoreVerdict(auditReport?.scores.conversion ?? 0);
     
     const actionBtn = [
         {id:"1" , label:"EXPORT PDF", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
@@ -59,14 +59,14 @@ export default function Dashboard (){
     }
 
     return (
-        <main className="grid grid-cols-1 lg:grid-cols-6 ">
-            <div className="col-span-1 hidden lg:flex" >
+        <main className="main">
+            <div className="sidebar" >
                 <Sidebar />
             </div>
             
-            <div className="md:col-span-5 w-full " >
+            <div className="lg:col-span-5 w-full " >
                 <Topbar pageTitle="dashboard" />
-                <section className="bg-cream h-[calc(100vh-50px)]  overflow-auto px-3 md:px-6 pt-6 pb-12 ">
+                <section className="content">
                     {/* heading */}
                     <div className="font-jet">
                         <span className="flex gap-2 orange text-[0.7rem] tracking-wider items-center"><p>——</p>  NEW AUDIT</span>
@@ -78,7 +78,7 @@ export default function Dashboard (){
                         <span className="flex justify-between black-bg py-1.5 gray-1 px-4 text-[0.65rem] font-jet tracking-wide">
                             <p>TARGET URL</p>
                             
-                            <p className="text-[#cd9c20] ">{  auditRunning  ? "SCANNING..." : (formData.domain?.trim() ? "READY TO SCAN" : ( <p className="gray-1">READY</p> ))  }</p>
+                            <span className="text-[#cd9c20] ">{  auditRunning  ? "SCANNING..." : (formData.domain?.trim() ? "READY TO SCAN" : ( <p className="gray-1">READY</p> ))  }</span>
                             
                         </span>
 

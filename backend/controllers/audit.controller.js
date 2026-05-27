@@ -56,16 +56,16 @@ export const runAudit = async (req, res) => {
     const { screenshotBase64, html } = await scanPage(url);
 
     // upload img to cloudinary
-    console.log("🌐 uplooading to cloudinary...");
-    const screenshotUrl = await uploadScreenshot(screenshotBase64, url);
-    console.log("uploading done")
+    const cloudinaryPromise = uploadScreenshot(screenshotBase64, url).catch((err) => {
+      console.error("Cloudinary upload failed:", err.message);
+      return null; // don't crash if cloudinary fails
+    });
 
     console.log("📊 Fetching PageSpeed data...");
     const pagespeed = await getPageSpeedData(url);
-
+    
     console.log("🤖 Sending to Gemini...");
     const prompt = buildAuditPrompt({ domain: url, html, pagespeed });
-
     const result = await geminiModel.generateContent([
       { text: prompt },
       { inlineData: { mimeType: "image/png", data: screenshotBase64 } },
@@ -87,6 +87,10 @@ export const runAudit = async (req, res) => {
     auditReport.scan_meta.scan_time_seconds = parseFloat(
         ((Date.now() - startTime) / 1000).toFixed(1)
     );
+
+    // Now wait for Cloudinary before saving to DB
+    const screenshotUrl = await cloudinaryPromise ?? null;
+    console.log("✅ Cloudinary done");
 
     // add screenshot url to report
     auditReport.screenshot_url = screenshotUrl

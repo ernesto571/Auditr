@@ -9,7 +9,7 @@ export const getAllReports = async(req, res) => {
         const reports = await sql`
             SELECT * FROM reports
             WHERE auth_id = ${userId}
-            ORDER BY analyzed_at DESC
+            ORDER BY created_at DESC
         `;
         return res.status(200).json({ reports });
 

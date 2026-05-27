@@ -60,3 +60,45 @@
 .gray-bord {
   border-color: #222121 ;
 }
+
+.main {
+  display: grid;
+}
+
+.sidebar {
+  display: none;
+}
+
+
+.content {
+  width: 100%;
+  background-color: #f2f0e8 ;
+  height: calc(100vh - 50px);
+  overflow: auto;
+  padding-left: 0.75rem /* 12px */;
+  padding-right: 0.75rem;
+  padding-top: 1.5rem;
+  padding-bottom: 3rem 
+}
+
+@media (min-width: 700px) {
+
+  .content {
+    padding-left: 1.5rem /* 24px */;
+    padding-right: 1.5rem /* 24px */;
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .main {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .sidebar {
+    display: flex;
+    grid-column: span 1 / span 1;
+  }
+
+
+}

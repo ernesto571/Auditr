@@ -60,3 +60,16 @@ export const getSeverityStyle = ( severity: string ) => {
     return severityStyle
 }
  
+export const getScoreStyle = ( score: number ) => {
+    let scoreStyle;
+
+    if (score < 70) {
+        scoreStyle = "orange font-bold "
+    } else if ( score > 69 && score <85) {
+        scoreStyle = "text-[#8a6000] font-bold "
+    } else {
+        scoreStyle = "text-[#1a5c35] font-bold "
+    }
+
+    return scoreStyle
+}
