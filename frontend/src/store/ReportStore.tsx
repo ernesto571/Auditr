@@ -8,6 +8,7 @@ interface Report {
     overall_score: number;
     verdict: string;
     summary: string;
+    headline: string;
     ui_ux_notes: {
       spacing: string;
       readability: string;
@@ -50,6 +51,7 @@ interface Report {
     screenshot_url: string;
     strengths: string[];
     saved: boolean;
+    updated_at: Date;
 }
 
 interface ReportStore {

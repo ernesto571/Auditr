@@ -4,10 +4,11 @@ import Topbar from "../components/Topbar";
 import { useAuthStore } from "../store/AuthStore";
 import { useAuditStore } from "../store/AuditStore";
 import toast from "react-hot-toast";
-import { formatDate, getScoreVerdict, getVerdictStyle, getSeverityStyle } from "../lib/utils";
+import { formatDate, getScoreVerdict, getVerdictStyle, getSeverityStyle, timeAgo } from "../lib/utils";
 import { AuditLoader } from "../components/AuditLoader";
 import AuthModal from "../components/AuthModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useReportStore } from "../store/ReportStore";
 
 const info = [
     { id:"1", label: "~60s scan", icon:Clock },
@@ -25,6 +26,7 @@ export default function Dashboard (){
     const [selectedAuthLabel, setSelectedAuthLabel] = useState("");
 
     const { user } = useAuthStore();
+    const { reports, savedReports, fetchAllReports, fetchSavedReports } = useReportStore()
     const { formData, setFormData, runAudit, error, auditRunning, auditReport } = useAuditStore()
     const [ label, className ] = getVerdictStyle(auditReport?.verdict);
 
@@ -33,12 +35,18 @@ export default function Dashboard (){
     const [seoStyle, seoVerdict, seoVerdictStyle]    = getScoreVerdict(auditReport?.scores.seo ?? 0);
     const [a11yStyle, a11yVerdict, a11yVerdictStyle] = getScoreVerdict(auditReport?.scores.accessibility ?? 0);
     const [convStyle, convVerdict, convVerdictStyle] = getScoreVerdict(auditReport?.scores.conversion ?? 0);
-    
-    const actionBtn = [
-        {id:"1" , label:"EXPORT PDF", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
-        {id:"2" , label:"EXPORT CSV", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
-        {id:"3" , label:"SAVE REPORT", action:"", color:"bg-orange white"}
-    ]
+ 
+    const totalScore = reports?.reduce((acc, r) => acc + r.overall_score, 0) ?? 0;
+    const avgScore   = reports.length > 0 ? +(totalScore / reports.length).toFixed(1) : 0;
+    const lastAudit  = reports[0];
+    const lastSaved  = savedReports[0]?.updated_at ?? null;
+
+    const reportInfo = [
+    { label: "TOTAL AUDITS",   value: reports.length ?? 0,  sub: "" },
+    { label: "AVG SCORE",      value: avgScore,              sub: "across all sites" },
+    { label: "SAVED REPORTS",  value: savedReports?.length,  sub: lastSaved ? `last saved ${timeAgo(lastSaved)}` : "none saved yet" },
+    { label: "LAST AUDIT",     value: lastAudit?.domain ?? "—",             sub: `${formatDate(lastAudit?.scan_meta.scanned_at ?? null).split("at")[0] } · score ${lastAudit?.overall_score?? "—"}` },
+    ];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ [e.target.name]: e.target.value });
@@ -58,6 +66,19 @@ export default function Dashboard (){
         }
     }
 
+    useEffect(() => {
+        fetchAllReports()
+    }, [])
+
+    useEffect(() => {
+        fetchSavedReports()
+    }, [])
+
+    const actionBtn = [
+        {id:"1" , label:"EXPORT PDF", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
+        {id:"2" , label:"EXPORT CSV", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
+    ]
+
     return (
         <main className="main">
             <div className="sidebar" >
@@ -67,8 +88,47 @@ export default function Dashboard (){
             <div className="lg:col-span-5 w-full " >
                 <Topbar pageTitle="dashboard" />
                 <section className="content">
+                    { user&& (
+                        <section className="grid grid-cols-2 md:grid-cols-4 border-y border-l black-bord" >
+                            { reportInfo.slice(0,2).map((r) => (
+                                <div key={r.label} className="py-3 px-3 md:px-5 border-r black-bord" >
+                                    {/* heading */}
+                                    <span className="flex gap-3 tracking-wide items-center gray-1 text-[0.72rem] font-jet">
+                                        <div className="w-[7px] h-[6px] border black-bord" ></div>
+                                        {r.label}
+                                    </span>
+                                    <h2 className="text-[1.5rem] mt-2 font-bold black font-jet" >{r.value} </h2>
+                                    <p className="text-[0.7rem] fomt-semibold gray-1 font-dm">{r.sub && r.sub} </p>
+                                </div>
+                            )) }
+
+                            { reportInfo.slice(2,3).map((r) => (
+                                <div key={r.label} className="py-3 px-3 md:px-5 border-t md:border-t-0 border-r black-bord" >
+                                    {/* heading */}
+                                    <span className="flex gap-3 tracking-wide items-center gray-1 text-[0.72rem] font-jet">
+                                        <div className="w-[7px] h-[6px] border black-bord" ></div>
+                                        {r.label}
+                                    </span>
+                                    <h2 className="text-[1.5rem] mt-2 font-bold black font-jet" >{r.value} </h2>
+                                    <p className="text-[0.7rem] fomt-semibold gray-1 font-dm">{r.sub && r.sub} </p>
+                                </div>
+                            )) }
+
+                            { reportInfo.slice(3).map((r) => (
+                                <div key={r.label} className="py-3 px-3 md:px-5 border-t md:border-t-0 border-r black-bord" >
+                                    {/* heading */}
+                                    <span className="flex gap-3 tracking-wide items-center gray-1 text-[0.72rem] font-jet">
+                                        <div className="w-[7px] h-[6px] border black-bord" ></div>
+                                        {r.label}
+                                    </span>
+                                    <h2 className="text-[0.9rem] mt-3 truncate font-bold black font-jet" >{r.value} </h2>
+                                    <p className="text-[0.7rem] mt-3 fomt-semibold truncate gray-1 font-dm">{r.sub && r.sub} </p>
+                                </div>
+                            )) }
+                        </section>
+                    ) }
                     {/* heading */}
-                    <div className="font-jet">
+                    <div className="font-jet mt-5">
                         <span className="flex gap-2 orange text-[0.7rem] tracking-wider items-center"><p>——</p>  NEW AUDIT</span>
                         <h2 className="font-dm black text-[1.5rem] font-bold mt-0.5">Audit any website.</h2>
                         <p className="gray-1 text-[0.7rem] mt-1">// UI/UX · performance · SEO · accessibility · conversion — results in ~60s </p>
@@ -126,6 +186,7 @@ export default function Dashboard (){
                                     { actionBtn.map((b) => (
                                         <button key={b.id} className={`${b.color} truncate  text-[0.7rem] font-jet py-1 px-3 tracking-wide`}>{b.label} </button>
                                     )) }
+                                    
                                 </span>
                             </div>
                             {/* summary */}

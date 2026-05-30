@@ -1,8 +1,9 @@
-import { ArrowRight, LogOut } from "lucide-react";
+import { ArrowRight, LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 import AuthModal from "./AuthModal";
 import { useAuthStore } from "../store/AuthStore";
 import { NavLink } from "react-router-dom";
+import MenuSidebar from "./MenuSidebar";
 
 interface TopbarProps {
     pageTitle: string;
@@ -10,13 +11,17 @@ interface TopbarProps {
 
 export default function Topbar ({pageTitle}: TopbarProps) {
     const [selectedAuthLabel, setSelectedAuthLabel] = useState("");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const { user, logout, isLoading} = useAuthStore()
 
 
     return (
         <div className="sticky z-50 py-2 px-2 md:px-6 border-b black-bord w-full bg-cream">
             <div className="flex items-center justify-between w-full">
-                <span className="flex gap-1 font-jet text-[0.8rem] gray-1">
+                <span className="flex gap-1 items-center font-jet text-[0.8rem] gray-1">
+                    <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden py-1 px-2 border black-bord">
+                        <Menu className="size-3 black" />
+                    </button>
                     <p>auditr</p>
                     <p>/</p>
                     <p className="black">{pageTitle} </p>
@@ -35,6 +40,7 @@ export default function Topbar ({pageTitle}: TopbarProps) {
                 ) }
                 
             </div>
+            <MenuSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
             { selectedAuthLabel && (
                 <AuthModal 

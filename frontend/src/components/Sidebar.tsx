@@ -2,10 +2,14 @@ import { FileText, LayoutList, ListChevronsDownUp, User } from "lucide-react"
 import { NavLink } from "react-router-dom"
 import { useReportStore } from "../store/ReportStore"
 import { useEffect } from "react"
+import { useAuthStore } from "../store/AuthStore"
 
 export default function Sidebar () {
 
     const { reports, savedReports, fetchAllReports, fetchSavedReports } = useReportStore()
+    const { user } = useAuthStore()
+    const first_name_ini = user?.name.split(" ")[0].slice(0,1)
+    const last_name_ini = user?.name.split(" ")[1].slice(0,1)
 
     const reportLength = reports.length ?? 0;
     const savedLength = savedReports.length ?? 0;
@@ -24,8 +28,7 @@ export default function Sidebar () {
     }, [])
 
     return (
-        <aside className="bg-black h-screen py-4 w-full">
-            <main>
+        <aside className="black-bg h-screen py-4 w-full flex flex-col justify-between">
                 <section className="flex flex-col">
                     {/* logo */}
                     <span className="flex gap-2 pl-3 border-b gray-bord pb-4 items-center">
@@ -64,7 +67,19 @@ export default function Sidebar () {
 
                     </div>
                 </section>
-            </main>
+                
+                { user && (
+                    <section className=" border-t gray-bord pt-4 px-3" >
+                        <div className="flex items-center gap-3 py-2 px-2 border gray-bord w-full" >
+                            <p className="text-[0.7rem] white font-semibold font-dm py-1.5 px-2 bg-orange" >{first_name_ini}{last_name_ini}</p>
+                            <div className="flex flex-col truncate gap-0.5">
+                                <h4 className="text-xs white font-dm">{user.name.split(" ")[0]} {last_name_ini}. </h4>
+                                <p className="text-[0.65rem] tracking-wide gray-1 ml-0">FREE PLAN</p>
+                            </div>
+                        </div>
+
+                    </section>
+                ) }
         </aside>
     )
 }

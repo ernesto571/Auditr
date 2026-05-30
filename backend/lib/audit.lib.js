@@ -90,6 +90,7 @@ Return this exact JSON structure:
     "conversion": <number 0-100, your independent CRO assessment from screenshot + HTML>
   },
   "summary": "<3-4 sentence plain English overview of the overall site health and what matters most>",
+  "headline": "<one sharp sentence summarising the most critical finding — like a headline>",
   "findings": [
     {
       "category": "<ui_ux | performance | seo | accessibility | conversion>",

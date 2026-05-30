@@ -64,12 +64,36 @@ export const getScoreStyle = ( score: number ) => {
     let scoreStyle;
 
     if (score < 70) {
-        scoreStyle = "orange font-bold "
+        scoreStyle = "orange font-extrabold "
     } else if ( score > 69 && score <85) {
-        scoreStyle = "text-[#8a6000] font-bold "
+        scoreStyle = "text-[#8a6000] font-extrabold "
     } else {
-        scoreStyle = "text-[#1a5c35] font-bold "
+        scoreStyle = "text-[#1a5c35] font-extrabold "
     }
 
     return scoreStyle
 }
+
+export const timeAgo = (date: Date): string => {
+  const now = Date.now();
+  const diff = now - new Date(date).getTime();
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(diff / 1000 / 60);
+  const hours   = Math.floor(diff / 1000 / 60 / 60);
+  const days    = Math.floor(diff / 1000 / 60 / 60 / 24);
+  const weeks   = Math.floor(days / 7);
+  const months  = Math.floor(days / 30);
+
+  if (seconds < 60)  return "just now";
+  if (minutes < 60)  return `${minutes}m ago`;
+  if (hours < 24)    return `${hours}h ago`;
+  if (days < 7)      return `${days}d ago`;
+  if (weeks < 4)     return `${weeks}w ago`;
+  if (months < 12)   return `${months}mo ago`;
+  return `${Math.floor(months / 12)}y ago`;
+};
+
+// timeAgo("2026-05-26T10:00:00Z") → "2d ago"
+// timeAgo("2026-05-29T10:30:00Z") → "3h ago"
+// timeAgo("2026-05-29T10:58:00Z") → "just now"

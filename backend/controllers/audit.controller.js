@@ -104,7 +104,7 @@ export const runAudit = async (req, res) => {
         const userId = session.user.id;
         const [ saved ] = await sql `
             INSERT INTO reports (
-                auth_id, domain, url, overall_score, verdict, scores, summary, findings, strengths, quick_wins, ui_ux_notes, conversion_notes, key_insight, priority_order, scan_meta, screenshot_url 
+                auth_id, domain, url, overall_score, verdict, scores, summary, headline, findings, strengths, quick_wins, ui_ux_notes, conversion_notes, key_insight, priority_order, scan_meta, screenshot_url 
             )
             VALUES (
                 ${userId},
@@ -114,6 +114,7 @@ export const runAudit = async (req, res) => {
                 ${auditReport.verdict},
                 ${JSON.stringify(auditReport.scores)},
                 ${auditReport.summary},
+                ${auditReport.headline},
                 ${JSON.stringify(auditReport.findings)},
                 ${auditReport.strengths},
                 ${auditReport.quick_wins},

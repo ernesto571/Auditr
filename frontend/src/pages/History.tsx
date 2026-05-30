@@ -4,6 +4,7 @@ import Topbar from "../components/Topbar";
 import { useReportStore } from "../store/ReportStore";
 import { ArrowRight, Star } from "lucide-react";
 import { formatDate, getScoreStyle, getScoreVerdict } from "../lib/utils";
+import { HistoryEmptyState } from "../components/EmptyStates";
 
 const th = "px-4  py-2 font-[300]"
 const td = "px-4 py-3"
@@ -72,12 +73,13 @@ export default function History () {
                         <p className="gray-1 text-[0.7rem] mt-1">// all audits — saved and unsaved — logged automatically</p>
                     </div>
 
-                    
+                    { reports.length === 0 && <HistoryEmptyState /> }
+
                     {/* table */}
-                    { reports && (
+                    { reports.length > 0 && (
                         <div className="mt-7  border black-bord overflow-auto ">
                             <table className="min-w-full overflow-auto table-fixed border-collapse">
-                                <tr className="gray-1 text-left font-jet  text-[0.7rem] bg-off  " >
+                                <tr className="gray-1 text-left font-jet  text-[0.7rem] bg-off border-b black-bord " >
                                     <th className={`px-2 md:px-4  py-2 font-[300] w-[55%]`}>URL</th>
                                     <th className={`${th} hidden md:table-cell`}>DATE</th>
                                     <th className={`${th}`}>SCORE</th>
@@ -89,7 +91,7 @@ export default function History () {
                                     const scoreStyle = getScoreStyle(r.overall_score)
                                     const [_,verdict, verdictStyle] = getScoreVerdict(r.overall_score)
                                     return (
-                                        <tr key={r.id} className="hover:cursor-pointer hover:bg-[#eae8e0] border-t black-bord ease-in-out transform ">
+                                        <tr key={r.id} className="hover:cursor-pointer hover:bg-[#eae8e0] ease-in-out transform ">
                                             {/* url */}
                                             <td className={`px-2 md:px-4 py-3 flex items-center gap-3 truncate black text-[0.8rem] md:text-sm font-medium font-dm`}>
                                                 <ArrowRight className="orange size-4" /> {r.domain}
@@ -103,7 +105,7 @@ export default function History () {
                                                 {r.overall_score}
                                             </td>
                                             {/* verdict */}
-                                            <td className={`px-4 hidden md:inline-flex -mt-1 ${verdictStyle} font-jet `}>
+                                            <td className={`px-4 hidden md:inline-flex mt-0  ${verdictStyle} font-jet `}>
                                                 {verdict}
                                             </td>
                                             <td className={td}>

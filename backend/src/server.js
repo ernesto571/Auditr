@@ -90,6 +90,7 @@ async function initDB() {
         verdict TEXT,
         scores JSONB DEFAULT '{}',
         summary TEXT NOT NULL,
+        headline TEXT NOT NULL,
         findings JSONB DEFAULT '[]',
         strengths TEXT[],
         quick_wins TEXT[],
