@@ -9,6 +9,7 @@ import { AuditLoader } from "../components/AuditLoader";
 import AuthModal from "../components/AuthModal";
 import { useEffect, useState } from "react";
 import { useReportStore } from "../store/ReportStore";
+import { handleExportCSV, handleExportPDF } from "../lib/export";
 
 const info = [
     { id:"1", label: "~60s scan", icon:Clock },
@@ -75,8 +76,8 @@ export default function Dashboard (){
     }, [])
 
     const actionBtn = [
-        {id:"1" , label:"EXPORT PDF", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
-        {id:"2" , label:"EXPORT CSV", action:"", color:"gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]"},
+        { id: "1", label: "EXPORT PDF", action: () => auditReport && handleExportPDF(auditReport), color: "gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]" },
+        { id: "2", label: "EXPORT CSV", action: () => auditReport && handleExportCSV(auditReport), color: "gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]" }
     ]
 
     return (
@@ -184,7 +185,7 @@ export default function Dashboard (){
                                 </span>
                                 <span className="flex gap-2">
                                     { actionBtn.map((b) => (
-                                        <button key={b.id} className={`${b.color} truncate  text-[0.7rem] font-jet py-1 px-3 tracking-wide`}>{b.label} </button>
+                                        <button onClick={b.action} key={b.id} className={`${b.color} truncate  text-[0.7rem] font-jet py-1 px-3 tracking-wide`}>{b.label} </button>
                                     )) }
                                     
                                 </span>
