@@ -8,30 +8,8 @@ export const getProfile = async (req, res) => {
         const userId = session.user.id;
 
         const [user] = await sql`
-            SELECT 
-                u.auth_id,
-                u.email,
-                u.first_name,
-                u.last_name,
-                u.created_at,
-                bu.image,
-                (
-                    SELECT COUNT(*) FROM session s 
-                    WHERE s."userId" = u.auth_id 
-                    AND s."expiresAt" > NOW()
-                ) AS active_sessions,
-                (
-                    SELECT MAX(s."createdAt") FROM session s 
-                    WHERE s."userId" = u.auth_id
-                ) AS last_login,
-                (
-                    SELECT a."providerId" FROM account a 
-                    WHERE a."userId" = u.auth_id 
-                    LIMIT 1
-                ) AS provider
-            FROM users u
-            JOIN "user" bu ON bu.id = u.auth_id
-            WHERE u.auth_id = ${userId}
+            SELECT * FROM users 
+            WHERE auth_id = ${userId}
         `;
 
         if (!user) return res.status(404).json({ message: "User not found" });
@@ -49,12 +27,18 @@ export const updateProfile = async (req, res) => {
         if (!session) return res.status(401).json({ message: "Unauthorized" });
         const userId = session.user.id;
         const { first_name, last_name } = req.body;
+        const full_name = `${first_name} ${last_name}`
 
+        await sql`
+            UPDATE "user"
+            SET name = ${full_name}
+            WHERE id = ${userId}
+        `;
         const [updated] = await sql`
             UPDATE users
             SET first_name = ${first_name}, last_name = ${last_name}
             WHERE auth_id = ${userId}
-            RETURNING auth_id, email, first_name, last_name, role, created_at
+            RETURNING auth_id, email, first_name, last_name, created_at
         `;
 
         return res.status(200).json({ user: updated });
@@ -76,7 +60,7 @@ export const deleteAccount = async (req, res) => {
         const [deletedUser] = await sql`
             DELETE FROM users
             WHERE auth_id = ${userId}
-            RETURNING auth_id, email, first_name, last_name, role, created_at
+            RETURNING auth_id, email, first_name, last_name, created_at
         `;
 
         // deleting from "user" cascades account, session, verification

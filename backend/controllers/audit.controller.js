@@ -135,7 +135,7 @@ export const runAudit = async (req, res) => {
 
     return res.status(200).json({ success: true, auditReport });
   } catch (error) {
-    console.error("Audit error:", error.message);
+    console.error("Audit error:", error);
     return res.status(500).json({ success: false, message: error.message ?? "Audit failed" });
   }
 };

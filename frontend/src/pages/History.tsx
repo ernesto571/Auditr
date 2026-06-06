@@ -91,7 +91,7 @@ export default function History () {
                                     const scoreStyle = getScoreStyle(r.overall_score)
                                     const [_,verdict, verdictStyle] = getScoreVerdict(r.overall_score)
                                     return (
-                                        <tr key={r.id} className="hover:cursor-pointer hover:bg-[#eae8e0] ease-in-out transform ">
+                                        <tr key={r.id} className="group hover:cursor-pointer  border-t black-bord hover:bg-[#eae8e0] ease-in-out transform ">
                                             {/* url */}
                                             <td className={`px-2 md:px-4 py-3 flex items-center gap-3 truncate black text-[0.8rem] md:text-sm font-medium font-dm`}>
                                                 <ArrowRight className="orange size-4" /> {r.domain}
@@ -105,7 +105,35 @@ export default function History () {
                                                 {r.overall_score}
                                             </td>
                                             {/* verdict */}
-                                            <td className={`px-4 hidden md:inline-flex mt-0  ${verdictStyle} font-jet `}>
+                                            <td className={`px-4 hidden md:inline-flex -mt-1  ${verdictStyle} font-jet `}>
+                                                {verdict}
+                                            </td>
+                                            <td className={td}>
+                                                <Star onClick={(e) => handleSaveReport(r,e)} className={`hover:cursor-pointer size-4 transition-colors ${r.saved ? "text-yellow-500 fill-yellow-500" : "black "}`}/>
+                                            </td>
+                                        </tr>
+                                    )    
+                                }) }
+
+                                { paginatedReports?.slice(2).map((r:any) => {
+                                    const scoreStyle = getScoreStyle(r.overall_score)
+                                    const [_,verdict, verdictStyle] = getScoreVerdict(r.overall_score)
+                                    return (
+                                        <tr key={r.id} className="group hover:cursor-pointer  border-t gray-bord hover:bg-[#eae8e0] ease-in-out transform ">
+                                            {/* url */}
+                                            <td className={`px-2 md:px-4 py-3 flex items-center gap-3 truncate black text-[0.8rem] md:text-sm font-medium font-dm`}>
+                                                <ArrowRight className="orange size-4" /> {r.domain}
+                                            </td>
+                                            {/* date */}
+                                            <td className={`${td} hidden md:table-cell gray-1 text-[0.8rem] font-[300] font-jet truncate`}>
+                                                { formatDate(r.scan_meta.scanned_at).split("at")[0] }
+                                            </td>
+                                            {/* score */}
+                                            <td className={`${td} ${scoreStyle} font-jet `}>
+                                                {r.overall_score}
+                                            </td>
+                                            {/* verdict */}
+                                            <td className={`px-4 hidden md:inline-flex -mt-1  ${verdictStyle} font-jet `}>
                                                 {verdict}
                                             </td>
                                             <td className={td}>

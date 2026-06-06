@@ -24,13 +24,13 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
         { id: "3", icon: FileText , label: "Saved Reports", to:"/saved-reports", length: savedLength }
     ]
 
-    useEffect (() => {
-        fetchAllReports()
-    }, [])
-
-    useEffect (() => {
-        fetchSavedReports()
-    }, [])
+    useEffect(() => {
+        if (user && !reports.length) fetchAllReports();
+    }, [user]);
+      
+    useEffect(() => {
+        if (user && !savedReports.length) fetchSavedReports();
+    }, [user]);
 
     return(
         <>
@@ -43,7 +43,7 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
             />
 
             {/* sidebar */}
-            <div className={`fixed top-0 py-4 left-0 z-50 h-screen w-[50%] md:w-[30%] lg:hidden flex flex-col justify-between black-bg shadow-2xl transform transition-transform duration-300 ease-in-out ${
+            <div className={`fixed top-0 py-4 left-0 z-50 h-screen w-[60%] md:w-[30%] lg:hidden flex flex-col justify-between black-bg shadow-2xl transform transition-transform duration-300 ease-in-out ${
                 isOpen ? "translate-x-0" : "-translate-x-full"}`}>
 
                 <section className="flex flex-col">
@@ -55,7 +55,19 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
 
                     <div className="mt-8 px-2 md:px-3 flex flex-col">
                         <span className="font-jet flex gap-1 mb-2 gray-3 text-[0.7rem] font-semibold tracking-wider ml-2">// <p>WORKSPACE</p></span>
-                        {sidebarLinks.map( (s) => (
+                        {sidebarLinks.slice(0,1).map( (s) => (
+                            <NavLink to={s.to} end={s.end} key={s.id} className={({ isActive }: { isActive: boolean }) => `group flex py-2 px-2 mb-1 justify-between items-center  ${isActive ? "bg-cream black" : "gray-1 hover:border-[#2a2a27] hover:text-[#f2f0e8] hover:border-[0.5px] hover:bg-[#1d1d1a] ease-in-out transform"}`} >
+                                {({ isActive }: { isActive: boolean }) => (
+                                    <div className="gap-3 flex items-center">
+                                        <s.icon size={15}  className={isActive ? "" : "gray-1 group-hover:text-[#f2f0e8]"}/>
+                                        <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
+                                    </div>
+                                )}
+                            </NavLink>
+                            
+                        ))}
+
+                        {sidebarLinks.slice(1).map( (s) => (
                             <NavLink to={s.to} end={s.end} key={s.id} className={({ isActive }: { isActive: boolean }) => `group flex py-2 px-2 mb-1 justify-between items-center  ${isActive ? "bg-cream black" : "gray-1 hover:border-[#2a2a27] hover:text-[#f2f0e8] hover:border-[0.5px] hover:bg-[#1d1d1a] ease-in-out transform"}`} >
                                 {({ isActive }: { isActive: boolean }) => (
                                     <>
@@ -64,8 +76,6 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
                                             <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
                                         </div>
                                         { s.length && (<p className="text-[0.60rem] px-1.5 py-[1px] border gray-bord group-hover:border-[rgba(242,240,232,0.21)] " >{s.length} </p>) }
-                                        
-                                        
                                     </>
                                 )}
                             </NavLink>

@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import AuthCallback from "./pages/AuthCallback";
 import History from "./pages/History";
 import SavedReport from "./pages/SavedReport";
+import ProfilePage from "./pages/ProfilePage";
 
 interface RouteProps {
   children: React.ReactNode;
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         <Route path="/saved-reports" element={<ProtectedRoute><SavedReport /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster

@@ -1,13 +1,15 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Sidebar from "../components/Sidebar"
 import Topbar from "../components/Topbar"
 import { useReportStore } from "../store/ReportStore"
 import { formatDate, getScoreStyle } from "../lib/utils"
 import { ChevronRight, Star } from "lucide-react"
 import { SavedReportsEmptyState } from "../components/EmptyStates"
+import ReportModal from "../components/ReportModal"
 
 
 const SavedReport = () => {
+    const [selectedReport, setSelectedReport] = useState<any | null>(null);
 
     const { savedReports, isSaving, removeFromSavedReport, fetchSavedReports } = useReportStore()
 
@@ -33,7 +35,7 @@ const SavedReport = () => {
     }, [])
 
   return (
-    <main className="main">
+    <main className="main" >
         <div className="sidebar">
             <Sidebar />
         </div>
@@ -49,7 +51,7 @@ const SavedReport = () => {
 
                 { savedReports.length === 0 && <SavedReportsEmptyState /> }
                 {/* saved reports */}
-                <div className="grid grid-cols-2 mt-7">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-7">
                     {savedReports.map((s)=> {
                         const scoreStyle = getScoreStyle(s.overall_score)
                         const scores = [
@@ -60,7 +62,7 @@ const SavedReport = () => {
                             { label:"CONV", score:s.scores.conversion },
                         ]
                         return (
-                            <div key={s.id} className="py-3 px-5 border black-bord hover:cursor-pointer hover:bg-[#eae8e0]">
+                            <div onClick={() => setSelectedReport(s)} key={s.id} className="py-3 px-5 border black-bord hover:cursor-pointer hover:bg-[#eae8e0]">
                                 {/* heading */}
                                 <span className="flex justify-between items-center font-jet">
                                     <div className="flex flex-col gap-1">
@@ -82,7 +84,7 @@ const SavedReport = () => {
                                 <p className="font-dm text-[#6b6960] text-[0.8rem] mt-3">{s.headline} </p>
                                 {/* button */}
                                 <span className="flex justify-between items-center">
-                                    <button className="inline-flex items-center gap-1 mt-3 gray-1 text-[0.72rem] font-jet py-1 px-3 border black-bord group hover:bg-[#0a0a08] hover:text-[#f2f0e8] ">OPEN REPORT <ChevronRight className="size-3  group-hover:bg-[#0a0a08] group-hover:text-[#f2f0e8]" /></button>
+                                    <button  onClick={() => setSelectedReport(s)} className="inline-flex items-center gap-1 mt-3 gray-1 text-[0.72rem] font-jet py-1 px-3 border black-bord group hover:bg-[#0a0a08] hover:text-[#f2f0e8] ">OPEN REPORT <ChevronRight className="size-3  group-hover:bg-[#0a0a08] group-hover:text-[#f2f0e8]" /></button>
                                     <button disabled={isSaving} onClick={(e) => unSaveReport(s,e)}  className="disabled:cursor-not-allowed disabled:opacity-50" >
                                       <Star className={`hover:cursor-pointer size-5 transition-colors ${s.saved ? "text-yellow-500 fill-yellow-500" : "black "}`} />
                                     </button>
@@ -95,6 +97,12 @@ const SavedReport = () => {
                 </div>
             </section>
         </div>
+        {selectedReport && (
+            <ReportModal 
+                onClose={() => setSelectedReport(null)} 
+                report={selectedReport} 
+            />
+        )}
     </main>
   )
 }

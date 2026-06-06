@@ -68,12 +68,12 @@ export default function Dashboard (){
     }
 
     useEffect(() => {
-        fetchAllReports()
-    }, [])
-
+        if (user && !reports.length) fetchAllReports();
+    }, [user]);
+      
     useEffect(() => {
-        fetchSavedReports()
-    }, [])
+        if (user && !savedReports.length) fetchSavedReports();
+    }, [user]);
 
     const actionBtn = [
         { id: "1", label: "EXPORT PDF", action: () => auditReport && handleExportPDF(auditReport), color: "gray-bord border gray-1 hover:bg-[#f2f0e8] hover:text-[#0a0a08]" },
@@ -197,7 +197,7 @@ export default function Dashboard (){
                             </div>
                             {/* page sc and info */}
                             <span className="grid grid-cols-1 md:grid-cols-3 border-x black-bord">
-                                <div className="px-4 py-3 bg-off border-r black-bord">
+                                <div className="px-4 py-3 bg-off md:border-r black-bord">
                                     <h5 className="text-[0.7rem] gray-1 font-jet tracking-wider">PAGE SCREENSHOT</h5>
                                     <img src={auditReport.screenshot_url} alt="screenshot" onClick={() => window.open(auditReport?.screenshot_url, "_blank")} className="h-[200px] w-full mt-1.5 object-cover hover:cursor-pointer hover:opacity-90 " />
                                 </div>
