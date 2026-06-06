@@ -62,7 +62,7 @@ const SavedReport = () => {
                             { label:"CONV", score:s.scores.conversion },
                         ]
                         return (
-                            <div onClick={() => setSelectedReport(s)} key={s.id} className="py-3 px-5 border black-bord hover:cursor-pointer hover:bg-[#eae8e0]">
+                            <div onClick={() => setSelectedReport(s)} key={s.id} className="py-3 px-3 md:px-5 border black-bord hover:cursor-pointer hover:bg-[#eae8e0]">
                                 {/* heading */}
                                 <span className="flex justify-between items-center font-jet">
                                     <div className="flex flex-col gap-1">
@@ -72,7 +72,7 @@ const SavedReport = () => {
                                     <h2 className={`${scoreStyle} text-[1.8rem] `} >{s.overall_score} </h2>
                                 </span>
                                 {/* scores */}
-                                <div className="inline-flex gap-3 mt-3" >
+                                <div className="inline-flex flex-wrap gap-3 mt-3" >
                                     { scores.map((score) => (
                                         <span key={score.label} className="gray-1 text-[0.7rem] border border-[#c7c6bd] px-2 font-jet inline-flex gap-2" >
                                             <p>{score.label} </p>

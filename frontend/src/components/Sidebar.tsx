@@ -44,7 +44,7 @@ export default function Sidebar () {
                                 {({ isActive }: { isActive: boolean }) => (
                                     <div className="gap-3 flex items-center">
                                         <s.icon size={15}  className={isActive ? "" : "gray-1 group-hover:text-[#f2f0e8]"}/>
-                                        <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
+                                        <h5 className="font-dm text-[0.9rem] truncate">{s.label}</h5> 
                                     </div>
                                 )}
                             </NavLink>
@@ -56,11 +56,9 @@ export default function Sidebar () {
                                     <>
                                         <div className="gap-3 flex items-center">
                                             <s.icon size={15}  className={isActive ? "" : "gray-1 group-hover:text-[#f2f0e8]"}/>
-                                            <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
+                                            <h5 className="font-dm text-[0.9rem] truncate">{s.label}</h5> 
                                         </div>
                                         <p className="text-[0.60rem] px-1.5 py-[1px] border gray-bord group-hover:border-[rgba(242,240,232,0.21)] " >{s.length} </p>
-                                        
-                                        
                                     </>
                                 )}
                             </NavLink>

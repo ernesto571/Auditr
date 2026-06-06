@@ -5,6 +5,7 @@ import { useReportStore } from "../store/ReportStore";
 import { ArrowRight, Star } from "lucide-react";
 import { formatDate, getScoreStyle, getScoreVerdict } from "../lib/utils";
 import { HistoryEmptyState } from "../components/EmptyStates";
+import ReportModal from "../components/ReportModal";
 
 const th = "px-4  py-2 font-[300]"
 const td = "px-4 py-3"
@@ -13,6 +14,7 @@ const ITEMS_PER_PAGE = 8
 
 
 export default function History () {
+    const [selectedReport, setSelectedReport] = useState<any | null>(null);
 
     const { reports, saveReport, removeFromSavedReport, fetchAllReports } = useReportStore()
     const [currentPage, setCurrentPage] = useState(1)
@@ -91,7 +93,7 @@ export default function History () {
                                     const scoreStyle = getScoreStyle(r.overall_score)
                                     const [_,verdict, verdictStyle] = getScoreVerdict(r.overall_score)
                                     return (
-                                        <tr key={r.id} className="group hover:cursor-pointer  border-t black-bord hover:bg-[#eae8e0] ease-in-out transform ">
+                                        <tr onClick={() => setSelectedReport(r)} key={r.id} className=" hover:cursor-pointer  border-t black-bord ease-in-out transform ">
                                             {/* url */}
                                             <td className={`px-2 md:px-4 py-3 flex items-center gap-3 truncate black text-[0.8rem] md:text-sm font-medium font-dm`}>
                                                 <ArrowRight className="orange size-4" /> {r.domain}
@@ -115,11 +117,11 @@ export default function History () {
                                     )    
                                 }) }
 
-                                { paginatedReports?.slice(2).map((r:any) => {
+                                { paginatedReports?.slice(1).map((r:any) => {
                                     const scoreStyle = getScoreStyle(r.overall_score)
                                     const [_,verdict, verdictStyle] = getScoreVerdict(r.overall_score)
                                     return (
-                                        <tr key={r.id} className="group hover:cursor-pointer  border-t gray-bord hover:bg-[#eae8e0] ease-in-out transform ">
+                                        <tr onClick={() => setSelectedReport(r)} key={r.id} className="group hover:cursor-pointer  border-t border-[#dedbd0] ease-in-out transform ">
                                             {/* url */}
                                             <td className={`px-2 md:px-4 py-3 flex items-center gap-3 truncate black text-[0.8rem] md:text-sm font-medium font-dm`}>
                                                 <ArrowRight className="orange size-4" /> {r.domain}
@@ -133,7 +135,7 @@ export default function History () {
                                                 {r.overall_score}
                                             </td>
                                             {/* verdict */}
-                                            <td className={`px-4 hidden md:inline-flex -mt-1  ${verdictStyle} font-jet `}>
+                                            <td className={`px-4 hidden md:inline-flex  ${verdictStyle} font-jet `}>
                                                 {verdict}
                                             </td>
                                             <td className={td}>
@@ -176,9 +178,14 @@ export default function History () {
                         </div>
                     ) }
                     
-
                 </section>
             </div>
+            {selectedReport && (
+                <ReportModal 
+                    onClose={() => setSelectedReport(null)} 
+                    report={selectedReport} 
+                />
+            )}
 
         </main>
     )

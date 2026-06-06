@@ -33,15 +33,15 @@ export const getScoreVerdict = ( score: number ) => {
     if (score < 70) {
         scoreStyle = "orange font-bold text-[2rem]"
         verdict = "CRITICAL"
-        verdictStyle = "bg-[#f2e1d4] border border-[#f4b49a] orange py-0.5 px-3 text-[0.7rem] tracking-tight mt-3 inline-flex"
+        verdictStyle = "bg-[#f2e1d4] border border-[#f4b49a] orange py-0.5 px-3 text-[0.7rem] tracking-tight inline-flex"
     } else if ( score > 69 && score <85) {
         scoreStyle = "text-[#8a6000] font-bold text-[2rem]"
         verdict = "REVIEW"
-        verdictStyle = "bg-[rgba(138,96,0,0.08)] border border-[#8a6000] text-[#8a6000] py-0.5 px-3 text-[0.7rem] tracking-tight mt-3 inline-flex"
+        verdictStyle = "bg-[rgba(138,96,0,0.08)] border border-[#8a6000] text-[#8a6000] py-0.5 px-3 text-[0.7rem] tracking-tight inline-flex"
     } else {
         scoreStyle = "text-[#1a5c35] font-bold text-[2rem]"
         verdict = "PASS"
-        verdictStyle = "bg-[rgba(26,92,53,0.08)] border border-[#1a5c35] text-[#1a5c35] py-0.5 px-3 text-[0.7rem] tracking-tight mt-3 inline-flex"
+        verdictStyle = "bg-[rgba(26,92,53,0.08)] border border-[#1a5c35] text-[#1a5c35] py-0.5 px-3 text-[0.7rem] tracking-tight inline-flex"
     }
 
     return [scoreStyle, verdict, verdictStyle]

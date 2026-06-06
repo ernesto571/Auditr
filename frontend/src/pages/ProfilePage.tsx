@@ -17,7 +17,7 @@ const ProfilePage = () => {
     const { reports, savedReports, fetchAllReports,fetchSavedReports} = useReportStore()
     const ini = `${profile?.first_name?.slice(0,1)}${profile?.last_name?.slice(0,1)}`
 
-    const totalScore = reports?.reduce((acc:any, r) => acc + r.overall_score, 0) ?? 0;
+    const totalScore = reports?.reduce((acc, r) => acc + Number(r.overall_score), 0) ?? 0;
     const avgScore   = reports.length > 0 ? +(totalScore / reports.length).toFixed(1) : 0;
 
     const profInfo = [
@@ -57,9 +57,7 @@ const ProfilePage = () => {
     };
 
     useEffect(() => {
-        if (!profile){
-            fetchProfile()
-        }
+        fetchProfile()
     }, [])
 
     useEffect(() => {

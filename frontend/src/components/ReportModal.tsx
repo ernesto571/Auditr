@@ -138,31 +138,31 @@ const ReportModal = ({onClose, report} : props ) => {
                         <p className={`${scoreLabel}`}>UI / UX</p>
                         <h1 className={`${uiStyle} `}>{report?.scores.ui_ux} </h1>
                         <div className="py-[1px] black-bg"></div>
-                        <p className={`${uiVerdictStyle} `}>{uiVerdict} </p>
+                        <p className={`${uiVerdictStyle} mt-3`}>{uiVerdict} </p>
                     </div>
                     <div className="px-3 py-4 black-bord border-r">
                         <p className={`${scoreLabel}`}>PERFORMANCE</p>
                         <h1 className={`${perfStyle}`}>{report?.scores.performance} </h1>
                         <div className="py-[1px] black-bg"></div>
-                        <p className={`${perfVerdictStyle} `}>{perfVerdict} </p>
+                        <p className={`${perfVerdictStyle} mt-3`}>{perfVerdict} </p>
                     </div>
                     <div className="px-3 py-4 black-bord border-r">
                         <p className={`${scoreLabel}`}>SEO</p>
                         <h1 className={`${seoStyle}`}>{report?.scores.seo} </h1>
                         <div className="py-[1px] black-bg"></div>
-                        <p className={`${seoVerdictStyle} `}>{seoVerdict} </p>
+                        <p className={`${seoVerdictStyle} mt-3`}>{seoVerdict} </p>
                     </div>
                     <div className="px-3 py-4 black-bord border-r">
                         <p className={`${scoreLabel}`}>ACCESSIBILITY</p>
                         <h1 className={`${a11yStyle}`}>{report?.scores.accessibility} </h1>
                         <div className="py-[1px] black-bg"></div>
-                        <p className={`${a11yVerdictStyle} `}>{a11yVerdict} </p>
+                        <p className={`${a11yVerdictStyle} mt-3`}>{a11yVerdict} </p>
                     </div>
                     <div className="px-3 py-4">
                         <p className={`${scoreLabel}`}>CONVERSION</p>
                         <h1 className={`${convStyle}`}>{report?.scores.conversion} </h1>
                         <div className="py-[1px] black-bg"></div>
-                        <p className={`${convVerdictStyle} `}>{convVerdict} </p>
+                        <p className={`${convVerdictStyle} mt-3`}>{convVerdict} </p>
                     </div>
                 </div>
                 {/* check and fault */}

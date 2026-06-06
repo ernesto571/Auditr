@@ -43,7 +43,7 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
             />
 
             {/* sidebar */}
-            <div className={`fixed top-0 py-4 left-0 z-50 h-screen w-[60%] md:w-[30%] lg:hidden flex flex-col justify-between black-bg shadow-2xl transform transition-transform duration-300 ease-in-out ${
+            <div className={`fixed top-0 py-4 left-0 z-50 h-screen w-[60%] md:w-[40%] lg:hidden flex flex-col justify-between black-bg shadow-2xl transform transition-transform duration-300 ease-in-out ${
                 isOpen ? "translate-x-0" : "-translate-x-full"}`}>
 
                 <section className="flex flex-col">
@@ -60,7 +60,7 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
                                 {({ isActive }: { isActive: boolean }) => (
                                     <div className="gap-3 flex items-center">
                                         <s.icon size={15}  className={isActive ? "" : "gray-1 group-hover:text-[#f2f0e8]"}/>
-                                        <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
+                                        <h5 className="font-dm text-[0.9rem] truncate">{s.label}</h5> 
                                     </div>
                                 )}
                             </NavLink>
@@ -73,7 +73,7 @@ export default function MenuSidebar ({ isOpen, onClose }: SidebarProps) {
                                     <>
                                         <div className="gap-3 flex items-center">
                                             <s.icon size={15}  className={isActive ? "" : "gray-1 group-hover:text-[#f2f0e8]"}/>
-                                            <h5 className="font-dm text-[0.9rem] ">{s.label}</h5> 
+                                            <h5 className="font-dm text-[0.9rem] truncate">{s.label}</h5> 
                                         </div>
                                         { s.length && (<p className="text-[0.60rem] px-1.5 py-[1px] border gray-bord group-hover:border-[rgba(242,240,232,0.21)] " >{s.length} </p>) }
                                     </>
